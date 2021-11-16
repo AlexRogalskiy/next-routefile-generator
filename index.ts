@@ -19,6 +19,7 @@ const nums = {
 };
 
 const niceName = (str: string) => {
+  if (str === "/") return "root";
   const numberwang = str
     .split("")
     // @ts-ignore
@@ -53,7 +54,9 @@ const genRoutes = () => {
           return last.match(/^[^_]/);
         })
         // Correctly format index files
-        .map((f) => f.replace(/\/index$/, ""));
+        .map((f) => f.replace(/.+\/index$/, ""))
+        // Special case /index
+        .map((f) => f.replace(/^\/index$/, "/"));
 
       const [dynamic, routes] = partition(pages, (p) => p.includes("["));
 
